@@ -38,6 +38,9 @@ def standardize_strings(string_list):
     res = []
     
     ### YOUR CODE 1-3 lines
+    for i in string_list :
+        res.append(re.sub('[.,-_()]','',i.lower()))
+
     ### END CODE
     
     assert len(string_list) == len(res)
@@ -73,7 +76,9 @@ def split_strings(strings):
     """
     word_lists = []
     
-    ### YOUR CODE 
+    ### YOUR CODE
+    for i in strings :
+        word_lists.append(str.split(i,' '))
     ### END CODE
     
     assert len(word_lists) == len(strings)
@@ -100,8 +105,8 @@ def remove_irrelevant_words(word_lists, bad_words=set()):
     pruned_word_lists = []
     
     ### YOUR CODE, 1-3 lines
+    pruned_word_lists = [set(x).difference(bad_words) for x in word_lists]
     ### END CODE
-    
     assert len(pruned_word_lists) == len(word_lists)
     return pruned_word_lists
 
@@ -204,8 +209,10 @@ class TextClassifier():
         self.index_to_word = dict()
         
         ### YOUR CODE 3-4 lines
+        self.vocabulary = {x for x in [word for word_list in word_lists for word in word_list]}
+        self.index_to_word = dict(enumerate(self.vocabulary))
+        self.word_to_index = {v:k for k,v in self.index_to_word.items()}
         ### END CODE
-        
         assert len(self.word_to_index) == len(self.index_to_word)
 
     def words_to_vectors(self, word_lists, vocabulary, index_map):
@@ -240,8 +247,12 @@ class TextClassifier():
         word_vectors: numpy array of size |word_lists| X |vocabulary|. The ith row is the vector to which the ith word_list is mapped by counting the occurrences of each word.
         """
         word_vectors = np.zeros((len(word_lists), len(vocabulary)))
-        
+        print(index_map)
+        print(word_lists)
+        print([Counter(i) for i in word_lists])
+
         ### YOUR CODE
+        [i for i in range(len(index_map)) for word_list in word_lists ]
         ### END CODE
         
         return word_vectors
